@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dúvidas sobre IA</title>
+    <meta name="description" content="Envie sua dúvida prática sobre o uso de inteligência artificial." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>" />
+    <style>
+      :root {
+        --bg: #f6f5f1;
+        --card: #ffffff;
+        --ink: #1d1d1b;
+        --muted: #5f5e58;
+        --line: #d9d7cf;
+        --accent: #1f5f4a;
+        --accent-ink: #ffffff;
+        --focus: #2d7a61;
+        --error: #a1321f;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #161614;
+          --card: #1f1f1c;
+          --ink: #ecebe6;
+          --muted: #a9a79f;
+          --line: #3a3934;
+          --accent: #6cc0a0;
+          --accent-ink: #10231c;
+          --focus: #8fd6ba;
+          --error: #f08a74;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 17px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      main {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 40px 16px 64px;
+      }
+      h1 {
+        font-size: clamp(1.7rem, 5vw, 2.2rem);
+        line-height: 1.15;
+        margin: 0 0 12px;
+        letter-spacing: -0.01em;
+      }
+      .lead { color: var(--muted); margin: 0 0 28px; }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 24px;
+      }
+      .field + .field { margin-top: 26px; }
+      label { display: block; font-weight: 650; margin-bottom: 4px; }
+      .optional { font-weight: 400; color: var(--muted); }
+      .hint { color: var(--muted); font-size: 0.94rem; margin: 0 0 10px; }
+      .hint ul { margin: 6px 0 0; padding-left: 1.2em; }
+      .hint li + li { margin-top: 2px; }
+      input[type="text"], textarea {
+        width: 100%;
+        font: inherit;
+        color: inherit;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 11px 13px;
+      }
+      textarea { min-height: 190px; resize: vertical; }
+      input:focus-visible, textarea:focus-visible, button:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 2px;
+      }
+      .count { text-align: right; font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+      .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+      button {
+        margin-top: 24px;
+        font: inherit;
+        font-weight: 650;
+        background: var(--accent);
+        color: var(--accent-ink);
+        border: 0;
+        border-radius: 10px;
+        padding: 12px 22px;
+        cursor: pointer;
+      }
+      button[disabled] { opacity: 0.6; cursor: progress; }
+      .status { margin: 14px 0 0; min-height: 1.5em; }
+      .status.error { color: var(--error); }
+      .done h2 { margin: 0 0 8px; font-size: 1.35rem; }
+      .done p { margin: 0; color: var(--muted); }
+      [hidden] { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>O que você quer saber sobre IA?</h1>
+      <p class="lead">
+        Conte uma dúvida, um problema ou uma ideia sobre o uso de inteligência artificial no seu
+        trabalho ou estudo. As respostas vão orientar a aula.
+      </p>
+
+      <form id="form" class="card" novalidate>
+        <div class="field">
+          <label for="name">Seu nome <span class="optional">(opcional)</span></label>
+          <p class="hint" id="name-hint">Pode deixar em branco — sua dúvida chega do mesmo jeito, de forma anônima.</p>
+          <input id="name" name="name" type="text" maxlength="80" autocomplete="name" aria-describedby="name-hint" />
+        </div>
+
+        <div class="field">
+          <label for="question">Qual é a sua dúvida ou questão prática sobre IA?</label>
+          <div class="hint" id="question-hint">
+            Vale qualquer coisa, do básico ao específico. Por exemplo:
+            <ul>
+              <li>uma tarefa do seu dia a dia em que a IA poderia ajudar, mas você não sabe como;</li>
+              <li>algo que você tentou fazer com IA e não funcionou como esperava;</li>
+              <li>qual ferramenta usar, como pedir, ou até onde dá para confiar na resposta;</li>
+              <li>receios ou questionamentos: ética, privacidade, plágio, autoria.</li>
+            </ul>
+          </div>
+          <textarea
+            id="question"
+            name="question"
+            maxlength="2000"
+            required
+            aria-describedby="question-hint count"
+            placeholder="Ex.: Uso IA para resumir artigos, mas às vezes ela inventa referências. Como evito isso?"
+          ></textarea>
+          <div class="count" id="count" aria-live="polite">0 / 2000</div>
+        </div>
+
+        <div class="trap" aria-hidden="true">
+          <label for="website">Não preencha</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <button type="submit" id="submit">Enviar dúvida</button>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </form>
+
+      <section id="done" class="card done" hidden tabindex="-1">
+        <h2>Recebido, obrigado!</h2>
+        <p>Sua dúvida foi registrada e vai ajudar a preparar a aula.</p>
+        <button type="button" id="again">Enviar outra dúvida</button>
+      </section>
+    </main>
+
+    <script>
+      const ENDPOINT =
+        'https://script.google.com/macros/s/AKfycbzs_d2GFdtzVCYCKBf0pqip9Ce59SY7hcN4XIZSjl9vzVp4RS3xNxk7WWWqZULZpbQX/exec';
+
+      const form = document.getElementById('form');
+      const question = document.getElementById('question');
+      const count = document.getElementById('count');
+      const status = document.getElementById('status');
+      const submit = document.getElementById('submit');
+      const done = document.getElementById('done');
+
+      question.addEventListener('input', () => {
+        count.textContent = `${question.value.length} / 2000`;
+      });
+
+      // Apps Script não responde com CORS; JSONP (tag <script>) permite ler a confirmação.
+      function send(params) {
+        return new Promise((resolve) => {
+          const cb = 'duvida' + Math.random().toString(36).slice(2);
+          const script = document.createElement('script');
+          const timer = setTimeout(() => finish('timeout'), 20000);
+          function finish(result) {
+            clearTimeout(timer);
+            delete window[cb];
+            script.remove();
+            resolve(result);
+          }
+          window[cb] = (res) => finish(res && res.status ? res.status : 'error');
+          script.onerror = () => finish('error');
+          script.src = `${ENDPOINT}?${new URLSearchParams({ ...params, callback: cb })}`;
+          document.head.appendChild(script);
+        });
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const text = question.value.trim();
+        if (text.length < 3) {
+          status.className = 'status error';
+          status.textContent = 'Escreva sua dúvida antes de enviar.';
+          question.focus();
+          return;
+        }
+        submit.disabled = true;
+        status.className = 'status';
+        status.textContent = 'Enviando…';
+
+        const result = await send({
+          name: document.getElementById('name').value.trim(),
+          question: text,
+          website: document.getElementById('website').value,
+        });
+
+        submit.disabled = false;
+        if (result === 'received') {
+          status.textContent = '';
+          form.hidden = true;
+          done.hidden = false;
+          done.focus();
+        } else {
+          status.className = 'status error';
+          status.textContent =
+            'Não foi possível enviar agora. Verifique a conexão e tente de novo — seu texto continua aqui.';
+        }
+      });
+
+      document.getElementById('again').addEventListener('click', () => {
+        question.value = '';
+        count.textContent = '0 / 2000';
+        done.hidden = true;
+        form.hidden = false;
+        question.focus();
+      });
+    </script>
+  </body>
+</html>
