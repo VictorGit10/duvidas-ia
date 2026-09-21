@@ -2,11 +2,12 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#faf8f4" />
     <title>Dúvidas sobre IA</title>
-    <meta name="description" content="Envie sua dúvida prática sobre o uso de inteligência artificial." />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" />
+    <meta name="description" content="Envie sua dúvida sobre o uso prático de inteligência artificial." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%235140c8' d='M12 0c.7 6.4 5.6 11.3 12 12-6.4.7-11.3 5.6-12 12-.7-6.4-5.6-11.3-12-12C6.4 11.3 11.3 6.4 12 0z'/></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -22,31 +23,34 @@
 
       :root {
         color-scheme: light;
-        --bg: #fbf8f3;
-        --ink: #1b1a2e;
-        --muted: #62607a;
-        --soft: #8e8ca6;
-        --line: #e7e2f0;
-        --violet: #6d4aff;
-        --pink: #ff5fa2;
-        --orange: #ff9a3d;
-        --teal: #14b8a6;
-        --error: #c2382a;
-        --grad: linear-gradient(100deg, var(--violet), var(--pink) 55%, var(--orange));
+        --bg: #faf8f4;
+        --ink: #1c1b29;
+        --muted: #63616f;
+        --soft: #9896a3;
+        --line: #e8e4dc;
+        --accent: #5140c8;
+        --accent-soft: #eeebfb;
+        --error: #b3362a;
+        --pad: 20px;
       }
 
       * { box-sizing: border-box; }
-      html { background: var(--bg); }
+      html {
+        background: var(--bg);
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
       body {
         margin: 0;
-        min-height: 100vh;
+        min-height: 100svh;
         color: var(--ink);
         font: 17px/1.6 'Manrope', system-ui, sans-serif;
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: transparent;
       }
 
-      /* ---------- Fundo: manchas de cor em movimento ---------- */
+      /* ---------- Fundo: luz suave em movimento (gradientes, sem blur: leve no celular) ---------- */
       .aurora {
         position: fixed;
         inset: 0;
@@ -54,39 +58,45 @@
         overflow: hidden;
         pointer-events: none;
       }
-      .blob {
+      .glow {
         position: absolute;
-        width: 46vmax;
-        height: 46vmax;
+        width: 120vmax;
+        height: 120vmax;
         border-radius: 50%;
-        filter: blur(70px);
-        opacity: 0.5;
-        mix-blend-mode: multiply;
-        animation: drift 22s ease-in-out infinite alternate;
+        will-change: transform;
+        animation: drift 26s ease-in-out infinite alternate;
       }
-      .blob.b1 { background: #c9b8ff; top: -18vmax; left: -12vmax; }
-      .blob.b2 { background: #ffc2dc; top: -10vmax; right: -16vmax; animation-duration: 26s; animation-delay: -6s; }
-      .blob.b3 { background: #ffe0b8; bottom: -22vmax; left: 10vmax; animation-duration: 30s; animation-delay: -12s; }
-      .blob.b4 { background: #b8f0e8; bottom: -16vmax; right: -8vmax; animation-duration: 24s; animation-delay: -3s; }
+      .glow.g1 {
+        top: -70vmax;
+        left: -50vmax;
+        background: radial-gradient(closest-side, rgba(128, 110, 230, 0.2), transparent);
+      }
+      .glow.g2 {
+        bottom: -75vmax;
+        right: -55vmax;
+        background: radial-gradient(closest-side, rgba(214, 184, 140, 0.22), transparent);
+        animation-duration: 32s;
+        animation-delay: -10s;
+      }
       @keyframes drift {
-        0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-        50% { transform: translate(6vmax, 5vmax) scale(1.12) rotate(40deg); }
-        100% { transform: translate(-5vmax, 8vmax) scale(0.94) rotate(-20deg); }
+        to { transform: translate(12vmax, 10vmax) scale(1.08); }
       }
       .dots {
         position: fixed;
         inset: 0;
         z-index: -1;
         pointer-events: none;
-        background-image: radial-gradient(rgba(27, 26, 46, 0.09) 1px, transparent 1.4px);
-        background-size: 26px 26px;
-        mask-image: radial-gradient(ellipse at 50% 0%, #000 20%, transparent 75%);
+        background-image: radial-gradient(rgba(28, 27, 41, 0.08) 1px, transparent 1.4px);
+        background-size: 24px 24px;
+        -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 15%, transparent 70%);
+        mask-image: radial-gradient(ellipse at 50% 0%, #000 15%, transparent 70%);
       }
 
       main {
-        max-width: 760px;
+        max-width: 720px;
         margin: 0 auto;
-        padding: clamp(40px, 9vh, 96px) 16px 72px;
+        padding: clamp(32px, 8vh, 88px) max(var(--pad), env(safe-area-inset-right)) calc(56px + env(safe-area-inset-bottom))
+          max(var(--pad), env(safe-area-inset-left));
       }
 
       /* ---------- Topo ---------- */
@@ -94,49 +104,52 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 7px 14px 7px 10px;
+        padding: 6px 14px 6px 10px;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.75);
         border: 1px solid var(--line);
-        backdrop-filter: blur(8px);
-        font-size: 0.84rem;
+        font-size: 0.8rem;
         font-weight: 700;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.04em;
         color: var(--muted);
-        box-shadow: 0 4px 20px rgba(109, 74, 255, 0.08);
       }
       .spark {
-        width: 18px;
-        height: 18px;
-        animation: spin 6s linear infinite;
+        width: 15px;
+        height: 15px;
+        fill: var(--accent);
+        animation: spin 8s linear infinite;
       }
       @keyframes spin { to { transform: rotate(360deg); } }
 
       h1 {
         font-family: 'Instrument Serif', Georgia, serif;
         font-weight: 400;
-        font-size: clamp(3rem, 11vw, 5.6rem);
-        line-height: 0.98;
+        font-size: clamp(2.6rem, 11vw, 5.2rem);
+        line-height: 1;
         letter-spacing: -0.02em;
-        margin: 22px 0 22px;
+        margin: 20px 0 22px;
+        text-wrap: balance;
       }
       h1 em {
         font-style: italic;
-        background: var(--grad);
-        background-size: 200% 100%;
+        color: var(--accent);
+        background: linear-gradient(100deg, var(--accent) 40%, #9a8cf0 50%, var(--accent) 60%);
+        background-size: 300% 100%;
+        background-position: 100% 0;
         -webkit-background-clip: text;
         background-clip: text;
-        color: transparent;
-        animation: sheen 6s ease-in-out infinite alternate;
-        padding-right: 0.08em;
-        margin-right: -0.06em;
+        -webkit-text-fill-color: transparent;
+        animation: sheen 7s ease-in-out infinite;
+        padding-right: 0.06em;
       }
-      @keyframes sheen { to { background-position: 100% 0; } }
+      @keyframes sheen {
+        0%, 55% { background-position: 100% 0; }
+        100% { background-position: 0 0; }
+      }
 
       .rotator {
-        font-size: clamp(1.08rem, 3.2vw, 1.3rem);
+        font-size: clamp(1.05rem, 4.4vw, 1.25rem);
         font-weight: 600;
-        color: var(--ink);
         margin: 0 0 14px;
       }
       .words {
@@ -148,83 +161,70 @@
       .words span {
         grid-area: 1 / 1;
         white-space: nowrap;
-        color: var(--violet);
+        font-family: 'Instrument Serif', Georgia, serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 1.25em;
+        line-height: 1.28;
+        color: var(--accent);
         transform: translateY(110%);
         opacity: 0;
-        transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.2, 1), opacity 0.4s;
+        transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.2, 1), opacity 0.45s;
       }
       .words span.on { transform: translateY(0); opacity: 1; }
       .words span.off { transform: translateY(-110%); opacity: 0; }
-      .words span::after {
-        content: '';
-        display: block;
-        height: 3px;
-        margin-top: -4px;
-        border-radius: 3px;
-        background: var(--grad);
-        opacity: 0.35;
-      }
 
       .lead {
         color: var(--muted);
-        font-size: 1.05rem;
-        max-width: 34em;
+        font-size: 1.02rem;
+        max-width: 33em;
         margin: 0;
       }
+      .lead strong { color: var(--ink); font-weight: 700; }
 
       /* ---------- Faixa de exemplos ---------- */
       .marquee {
-        margin: 44px -16px 40px;
+        margin: 40px calc(-1 * var(--pad)) 36px;
         display: grid;
-        gap: 12px;
-        mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+        gap: 10px;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+        mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
       }
       .track {
         display: flex;
-        gap: 12px;
+        gap: 10px;
         width: max-content;
-        animation: scroll 55s linear infinite;
+        animation: scroll 60s linear infinite;
       }
-      .track.reverse { animation-direction: reverse; animation-duration: 65s; }
-      .marquee:hover .track { animation-play-state: paused; }
+      .track.reverse { animation-direction: reverse; animation-duration: 72s; }
       @keyframes scroll { to { transform: translateX(-50%); } }
       .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 9px;
-        padding: 10px 16px;
+        padding: 9px 16px;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.78);
+        background: rgba(255, 255, 255, 0.8);
         border: 1px solid var(--line);
-        font-size: 0.93rem;
+        font-size: 0.9rem;
         font-weight: 500;
-        color: var(--ink);
+        color: var(--muted);
         white-space: nowrap;
-        box-shadow: 0 6px 18px rgba(27, 26, 46, 0.05);
-      }
-      .pill i {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        flex: none;
-        font-style: normal;
       }
 
       /* ---------- Cartão do formulário ---------- */
       .frame {
         position: relative;
-        border-radius: 28px;
-        padding: 1.5px;
-        background: conic-gradient(from var(--angle), #e4dcff, var(--violet), var(--pink), var(--orange), #e4dcff 70%);
-        animation: rotate 8s linear infinite;
-        box-shadow: 0 30px 80px -30px rgba(109, 74, 255, 0.35), 0 12px 30px -12px rgba(255, 95, 162, 0.2);
+        border-radius: 24px;
+        padding: 1px;
+        background: conic-gradient(from var(--angle), var(--line) 0 62%, rgba(81, 64, 200, 0.85) 80%, var(--line) 96%);
+        animation: rotate 7s linear infinite;
+        box-shadow: 0 1px 2px rgba(28, 27, 41, 0.04), 0 24px 60px -28px rgba(28, 27, 41, 0.28);
       }
       @keyframes rotate { to { --angle: 360deg; } }
       .card {
         position: relative;
-        border-radius: 27px;
-        background: rgba(255, 255, 255, 0.94);
-        padding: clamp(22px, 5vw, 40px);
+        border-radius: 23px;
+        background: #fff;
+        padding: clamp(22px, 6vw, 44px);
         overflow: hidden;
       }
       .card::before {
@@ -232,103 +232,69 @@
         position: absolute;
         inset: 0;
         pointer-events: none;
-        background: radial-gradient(420px circle at var(--mx, 50%) var(--my, -20%), rgba(109, 74, 255, 0.09), transparent 60%);
-        transition: opacity 0.3s;
+        background: radial-gradient(380px circle at var(--mx, 50%) var(--my, -30%), rgba(81, 64, 200, 0.06), transparent 65%);
       }
       .card > * { position: relative; }
 
-      .step {
-        display: flex;
-        gap: 16px;
-      }
-      .step + .step { margin-top: 30px; }
+      .field + .field { margin-top: 34px; }
       .num {
-        flex: none;
-        width: 34px;
-        height: 34px;
-        border-radius: 11px;
-        display: grid;
-        place-items: center;
-        font-weight: 800;
-        font-size: 0.95rem;
-        color: #fff;
-        background: var(--grad);
-        box-shadow: 0 6px 16px -4px rgba(255, 95, 162, 0.55);
-        margin-top: 2px;
-      }
-      .step-body { flex: 1; min-width: 0; }
-
-      label {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 8px;
-        font-weight: 800;
-        font-size: 1.12rem;
+        display: block;
+        font-family: 'Instrument Serif', Georgia, serif;
+        font-style: italic;
+        font-size: 1.05rem;
+        color: var(--accent);
         margin-bottom: 2px;
       }
-      .tag {
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--teal);
-        background: rgba(20, 184, 166, 0.1);
-        border-radius: 999px;
-        padding: 3px 9px;
+      label {
+        display: block;
+        font-weight: 800;
+        font-size: 1.15rem;
+        line-height: 1.35;
+        margin-bottom: 4px;
       }
-      .hint { color: var(--muted); font-size: 0.95rem; margin: 0 0 12px; }
-
-      .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
+      .optional {
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: var(--soft);
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
         margin: 0 0 14px;
-        padding: 0;
-        list-style: none;
       }
-      .chips li {
-        font-size: 0.86rem;
-        font-weight: 600;
-        padding: 6px 12px;
-        border-radius: 10px;
-        background: #f5f2ff;
-        color: #4b36c7;
-        border: 1px solid #e6dfff;
-      }
-      .chips li:nth-child(2) { background: #fff1f7; color: #b3336c; border-color: #ffdcea; }
-      .chips li:nth-child(3) { background: #fff5ea; color: #a85a12; border-color: #ffe4c7; }
 
       .input {
-        position: relative;
-        border-radius: 16px;
-        padding: 1.5px;
+        border-radius: 14px;
+        padding: 1px;
         background: var(--line);
         transition: background 0.3s, box-shadow 0.3s;
       }
       .input:focus-within {
-        background: var(--grad);
-        box-shadow: 0 0 0 6px rgba(109, 74, 255, 0.1);
+        background: var(--accent);
+        box-shadow: 0 0 0 5px var(--accent-soft);
       }
       input[type='text'],
       textarea {
         display: block;
         width: 100%;
         font: inherit;
-        font-size: 1rem;
+        font-size: 16px; /* 16px evita o zoom automático do iPhone */
         color: var(--ink);
         background: #fff;
         border: 0;
-        border-radius: 14.5px;
+        border-radius: 13px;
         padding: 14px 16px;
         outline: none;
+        -webkit-appearance: none;
+        appearance: none;
       }
       textarea {
-        min-height: 180px;
+        min-height: 170px;
         resize: vertical;
         line-height: 1.55;
       }
-      ::placeholder { color: #aaa8bd; opacity: 1; transition: opacity 0.35s; }
+      ::placeholder { color: #aeacb8; opacity: 1; transition: opacity 0.35s; }
       textarea.fade::placeholder { opacity: 0; }
 
       .meter {
@@ -337,13 +303,14 @@
         justify-content: flex-end;
         gap: 10px;
         margin-top: 8px;
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         color: var(--soft);
+        font-variant-numeric: tabular-nums;
       }
       .bar {
-        width: 90px;
-        height: 4px;
-        border-radius: 4px;
+        width: 72px;
+        height: 3px;
+        border-radius: 3px;
         background: var(--line);
         overflow: hidden;
       }
@@ -351,7 +318,7 @@
         display: block;
         height: 100%;
         width: 0;
-        background: var(--grad);
+        background: var(--accent);
         transition: width 0.25s;
       }
 
@@ -362,27 +329,28 @@
         flex-wrap: wrap;
         align-items: center;
         gap: 14px 20px;
-        margin-top: 32px;
-        padding-left: 50px;
+        margin-top: 30px;
       }
       button {
         position: relative;
         overflow: hidden;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 10px;
+        min-height: 54px;
         font: inherit;
-        font-weight: 800;
-        font-size: 1.02rem;
+        font-weight: 700;
+        font-size: 1rem;
         color: #fff;
-        background: var(--grad);
-        background-size: 160% 100%;
+        background: var(--ink);
         border: 0;
         border-radius: 14px;
-        padding: 15px 26px;
+        padding: 14px 28px;
         cursor: pointer;
-        box-shadow: 0 14px 30px -10px rgba(109, 74, 255, 0.6);
-        transition: transform 0.2s, box-shadow 0.2s, background-position 0.5s;
+        box-shadow: 0 12px 28px -12px rgba(28, 27, 41, 0.55);
+        transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+        touch-action: manipulation;
       }
       button::after {
         content: '';
@@ -391,72 +359,78 @@
         left: -60%;
         width: 40%;
         height: 100%;
-        background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+        background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.22), transparent);
         transform: skewX(-20deg);
-        animation: shine 3.6s ease-in-out infinite;
+        animation: shine 4.5s ease-in-out infinite;
       }
-      @keyframes shine { 0%, 60% { left: -60%; } 100% { left: 130%; } }
-      button:hover { transform: translateY(-2px); background-position: 100% 0; box-shadow: 0 20px 36px -12px rgba(255, 95, 162, 0.6); }
-      button:active { transform: translateY(0); }
-      button:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
+      @keyframes shine { 0%, 65% { left: -60%; } 100% { left: 130%; } }
+      @media (hover: hover) {
+        button:hover {
+          transform: translateY(-2px);
+          background: var(--accent);
+          box-shadow: 0 16px 32px -12px rgba(81, 64, 200, 0.6);
+        }
+        button:hover .arrow { transform: translateX(4px); }
+      }
+      button:active { transform: scale(0.98); }
+      button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
       button .arrow { transition: transform 0.25s; }
-      button:hover .arrow { transform: translateX(4px); }
       button[disabled] { cursor: progress; opacity: 0.85; }
       .spinner {
         display: none;
         width: 18px;
         height: 18px;
         border-radius: 50%;
-        border: 2.5px solid rgba(255, 255, 255, 0.4);
+        border: 2px solid rgba(255, 255, 255, 0.35);
         border-top-color: #fff;
         animation: spin 0.7s linear infinite;
       }
       button.busy .spinner { display: block; }
       button.busy .arrow { display: none; }
 
-      .privacy { font-size: 0.86rem; color: var(--soft); margin: 0; }
-      .status { margin: 16px 0 0 50px; font-weight: 600; min-height: 0; }
+      .privacy {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 0.85rem;
+        color: var(--soft);
+        margin: 0;
+      }
+      .privacy svg { width: 14px; height: 14px; flex: none; }
+      .status { margin: 16px 0 0; font-weight: 600; font-size: 0.95rem; }
       .status:empty { display: none; }
       .status.error { color: var(--error); }
 
       .shake { animation: shake 0.4s; }
       @keyframes shake {
-        20%, 60% { transform: translateX(-6px); }
-        40%, 80% { transform: translateX(6px); }
+        20%, 60% { transform: translateX(-5px); }
+        40%, 80% { transform: translateX(5px); }
       }
 
       /* ---------- Confirmação ---------- */
-      .done { text-align: center; padding-block: clamp(36px, 7vw, 56px); }
+      .done { text-align: center; padding-block: clamp(40px, 9vw, 60px); }
       .done:focus { outline: none; }
-      .check { width: 92px; height: 92px; margin: 0 auto 18px; display: block; }
-      .check circle {
+      .check { width: 84px; height: 84px; margin: 0 auto 18px; display: block; }
+      .check circle, .check path {
         fill: none;
-        stroke: url(#g);
-        stroke-width: 5;
-        stroke-dasharray: 260;
-        stroke-dashoffset: 260;
-      }
-      .check path {
-        fill: none;
-        stroke: url(#g);
-        stroke-width: 6;
+        stroke: var(--accent);
         stroke-linecap: round;
         stroke-linejoin: round;
-        stroke-dasharray: 60;
-        stroke-dashoffset: 60;
       }
-      .done.show .check circle { animation: draw 0.7s 0.1s ease-out forwards; }
-      .done.show .check path { animation: draw 0.4s 0.7s ease-out forwards; }
+      .check circle { stroke-width: 3; stroke-dasharray: 260; stroke-dashoffset: 260; }
+      .check path { stroke-width: 4.5; stroke-dasharray: 60; stroke-dashoffset: 60; }
+      .done.show .check circle { animation: draw 0.8s 0.1s ease-out forwards; }
+      .done.show .check path { animation: draw 0.45s 0.8s ease-out forwards; }
       @keyframes draw { to { stroke-dashoffset: 0; } }
       .done h2 {
         font-family: 'Instrument Serif', Georgia, serif;
         font-weight: 400;
-        font-size: clamp(2.3rem, 7vw, 3.2rem);
+        font-size: clamp(2.2rem, 9vw, 3.1rem);
         line-height: 1.05;
         margin: 0 0 10px;
       }
-      .done p { color: var(--muted); margin: 0 auto 26px; max-width: 26em; }
-      .done button { margin: 0 auto; }
+      .done h2 em { font-style: italic; color: var(--accent); }
+      .done p { color: var(--muted); margin: 0 auto 26px; max-width: 24em; }
       .done.show > * { animation: rise 0.6s both; }
       .done.show > :nth-child(2) { animation-delay: 0.15s; }
       .done.show > :nth-child(3) { animation-delay: 0.25s; }
@@ -466,15 +440,15 @@
       .confetti {
         position: fixed;
         top: -20px;
-        width: 9px;
-        height: 14px;
-        border-radius: 2px;
+        width: 7px;
+        height: 12px;
+        border-radius: 1.5px;
         pointer-events: none;
         z-index: 10;
         animation: fall var(--t) cubic-bezier(0.25, 0.6, 0.4, 1) forwards;
       }
       @keyframes fall {
-        to { transform: translate(var(--x), 105vh) rotate(var(--r)); opacity: 0.9; }
+        to { transform: translate(var(--x), 105vh) rotate(var(--r)); }
       }
 
       /* ---------- Entrada da página ---------- */
@@ -483,17 +457,25 @@
       .d2 { animation-delay: 0.18s; }
       .d3 { animation-delay: 0.28s; }
       .d4 { animation-delay: 0.4s; }
-      .d5 { animation-delay: 0.55s; }
-
-      footer { text-align: center; color: var(--soft); font-size: 0.85rem; margin-top: 36px; }
+      .d5 { animation-delay: 0.52s; }
 
       [hidden] { display: none !important; }
 
-      @media (max-width: 560px) {
-        .step { gap: 12px; }
-        .num { width: 30px; height: 30px; border-radius: 10px; font-size: 0.88rem; }
-        .actions, .status { padding-left: 0; margin-left: 0; }
-        .actions button { width: 100%; justify-content: center; }
+      /* ---------- Celular ---------- */
+      @media (max-width: 600px) {
+        body { font-size: 16px; }
+        .rotator .words { display: grid; margin-top: 2px; }
+        .marquee { margin-block: 30px 28px; }
+        .pill { font-size: 0.85rem; padding: 8px 14px; }
+        .card { border-radius: 21px; padding: 24px 20px 26px; }
+        .frame { border-radius: 22px; }
+        .actions { flex-direction: column; align-items: stretch; text-align: center; }
+        .actions .privacy { justify-content: center; }
+        .done button { width: 100%; }
+      }
+      @media (max-width: 360px) {
+        :root { --pad: 14px; }
+        .card { padding: 22px 16px 24px; }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -508,10 +490,8 @@
   </head>
   <body>
     <div class="aurora" aria-hidden="true">
-      <div class="blob b1"></div>
-      <div class="blob b2"></div>
-      <div class="blob b3"></div>
-      <div class="blob b4"></div>
+      <div class="glow g1"></div>
+      <div class="glow g2"></div>
     </div>
     <div class="dots" aria-hidden="true"></div>
 
@@ -519,18 +499,12 @@
       <header>
         <span class="eyebrow reveal">
           <svg class="spark" viewBox="0 0 24 24" aria-hidden="true">
-            <defs>
-              <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#6d4aff" />
-                <stop offset="1" stop-color="#ff5fa2" />
-              </linearGradient>
-            </defs>
-            <path fill="url(#sg)" d="M12 0c.7 6.4 5.6 11.3 12 12-6.4.7-11.3 5.6-12 12-.7-6.4-5.6-11.3-12-12C6.4 11.3 11.3 6.4 12 0z" />
+            <path d="M12 0c.7 6.4 5.6 11.3 12 12-6.4.7-11.3 5.6-12 12-.7-6.4-5.6-11.3-12-12C6.4 11.3 11.3 6.4 12 0z" />
           </svg>
           Inteligência artificial na prática
         </span>
 
-        <h1 class="reveal d1">Pergunte o que quiser sobre <em>IA</em>.</h1>
+        <h1 class="reveal d1">Pergunte o que quiser sobre o uso <em>prático</em> de IA.</h1>
 
         <p class="rotator reveal d2" aria-hidden="true">
           Como usar IA para
@@ -538,7 +512,7 @@
             <span class="on">resumir um artigo?</span>
             <span>revisar um texto?</span>
             <span>analisar uma planilha?</span>
-            <span>preparar uma apresentação?</span>
+            <span>montar uma apresentação?</span>
             <span>escrever um código?</span>
             <span>organizar a rotina?</span>
             <span>transcrever uma reunião?</span>
@@ -558,42 +532,28 @@
 
       <div class="frame reveal d5">
         <form id="form" class="card" novalidate>
-          <div class="step">
-            <span class="num" aria-hidden="true">1</span>
-            <div class="step-body">
-              <label for="name">Como você se chama? <span class="tag">Opcional</span></label>
-              <p class="hint" id="name-hint">Se preferir, deixe em branco. Sua pergunta chega do mesmo jeito, sem identificação.</p>
-              <div class="input">
-                <input id="name" name="name" type="text" maxlength="80" autocomplete="name" aria-describedby="name-hint" placeholder="Seu nome" />
-              </div>
+          <div class="field">
+            <span class="num" aria-hidden="true">01</span>
+            <label for="name">Como você se chama? <span class="optional">(opcional)</span></label>
+            <p class="hint" id="name-hint">Se preferir, deixe em branco: sua pergunta chega do mesmo jeito, sem identificação.</p>
+            <div class="input">
+              <input id="name" name="name" type="text" maxlength="80" autocomplete="name" enterkeyhint="next" aria-describedby="name-hint" placeholder="Seu nome" />
             </div>
           </div>
 
-          <div class="step">
-            <span class="num" aria-hidden="true">2</span>
-            <div class="step-body">
-              <label for="question">Qual é a sua dúvida?</label>
-              <p class="hint" id="question-hint">
-                Quanto mais concreta, melhor: conte o que você queria fazer e onde travou. Pode ser, por exemplo:
-              </p>
-              <ul class="chips" aria-label="Exemplos">
-                <li>Uma tarefa em que a IA poderia te ajudar</li>
-                <li>Algo que você tentou e não deu certo</li>
-                <li>Qual ferramenta usar e como pedir</li>
-              </ul>
-              <div class="input">
-                <textarea
-                  id="question"
-                  name="question"
-                  maxlength="2000"
-                  required
-                  aria-describedby="question-hint count"
-                ></textarea>
-              </div>
-              <div class="meter">
-                <span class="bar" aria-hidden="true"><span id="bar"></span></span>
-                <span id="count">0 / 2000</span>
-              </div>
+          <div class="field">
+            <span class="num" aria-hidden="true">02</span>
+            <label for="question">Qual é a sua dúvida?</label>
+            <p class="hint" id="question-hint">
+              Quanto mais concreta, melhor. Pode ser uma tarefa em que você imagina que a IA poderia ajudar, algo
+              que você tentou e não deu certo, ou qual ferramenta usar e como pedir.
+            </p>
+            <div class="input">
+              <textarea id="question" name="question" maxlength="2000" required aria-describedby="question-hint count"></textarea>
+            </div>
+            <div class="meter">
+              <span class="bar" aria-hidden="true"><span id="bar"></span></span>
+              <span id="count">0 / 2000</span>
             </div>
           </div>
 
@@ -608,24 +568,22 @@
               <span class="arrow" aria-hidden="true">→</span>
               <span class="spinner" aria-hidden="true"></span>
             </button>
-            <p class="privacy">Só o professor vê as respostas.</p>
+            <p class="privacy">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" />
+              </svg>
+              Só o professor vê as respostas.
+            </p>
           </div>
           <p class="status" id="status" role="status" aria-live="polite"></p>
         </form>
 
         <section id="done" class="card done" hidden tabindex="-1" aria-live="polite">
           <svg class="check" viewBox="0 0 92 92" aria-hidden="true">
-            <defs>
-              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#6d4aff" />
-                <stop offset="0.55" stop-color="#ff5fa2" />
-                <stop offset="1" stop-color="#ff9a3d" />
-              </linearGradient>
-            </defs>
             <circle cx="46" cy="46" r="41" />
-            <path d="M28 47l12 12 24-26" />
+            <path d="M29 47l11 11 23-25" />
           </svg>
-          <h2>Pergunta recebida!</h2>
+          <h2>Pergunta <em>recebida</em>.</h2>
           <p>Obrigado por compartilhar. Ficou com outra dúvida? Pode mandar quantas quiser.</p>
           <button type="button" id="again">
             <span class="label">Enviar outra pergunta</span>
@@ -650,21 +608,21 @@
 
       // Faixa de exemplos: cada linha é duplicada para o loop não ter emenda.
       const examples = [
-        ['Como pedir um resumo que não invente nada?', '#6d4aff'],
-        ['Dá para usar IA para analisar uma planilha?', '#ff5fa2'],
-        ['ChatGPT, Gemini ou Claude: qual usar?', '#ff9a3d'],
-        ['Como escrever um bom prompt?', '#14b8a6'],
-        ['Posso confiar nas referências que ela sugere?', '#6d4aff'],
-        ['Como transformar uma reunião gravada em ata?', '#ff5fa2'],
-        ['A IA pode revisar meu texto sem mudar meu estilo?', '#ff9a3d'],
-        ['Como montar slides mais rápido?', '#14b8a6'],
-        ['Dá para ler um PDF enorme e tirar só o essencial?', '#6d4aff'],
-        ['Como automatizar respostas de e-mail?', '#ff5fa2'],
-        ['Por que a resposta muda cada vez que pergunto?', '#ff9a3d'],
-        ['Como traduzir mantendo os termos técnicos?', '#14b8a6'],
+        'Como pedir um resumo que não invente nada?',
+        'Dá para usar IA para analisar uma planilha?',
+        'ChatGPT, Gemini ou Claude: qual usar?',
+        'Como escrever um bom prompt?',
+        'Posso confiar nas referências que ela sugere?',
+        'Como transformar uma reunião gravada em ata?',
+        'A IA pode revisar meu texto sem mudar meu estilo?',
+        'Como montar slides mais rápido?',
+        'Dá para ler um PDF enorme e tirar só o essencial?',
+        'Como automatizar respostas de e-mail?',
+        'Por que a resposta muda cada vez que pergunto?',
+        'Como traduzir mantendo os termos técnicos?',
       ];
       function fill(track, items) {
-        const html = items.map(([t, c]) => `<span class="pill"><i style="background:${c}"></i>${t}</span>`).join('');
+        const html = items.map((t) => `<span class="pill">${t}</span>`).join('');
         track.innerHTML = html + html;
       }
       fill($('t1'), examples.slice(0, 6));
@@ -679,14 +637,14 @@
           w = (w + 1) % words.length;
           prev.className = 'off';
           words[w].className = 'on';
-          setTimeout(() => prev.classList.remove('off'), 650);
-        }, 2400);
+          setTimeout(() => prev.classList.remove('off'), 750);
+        }, 2600);
       }
 
       // Placeholder que alterna exemplos enquanto o campo está vazio.
       const placeholders = [
         'Ex.: Peço para a IA resumir artigos, mas às vezes ela cita trabalhos que não existem. Como evitar isso?',
-        'Ex.: Toda semana eu monto um relatório à mão a partir de uma planilha. A IA consegue fazer isso por mim?',
+        'Ex.: Toda semana monto um relatório à mão a partir de uma planilha. A IA consegue fazer isso por mim?',
         'Ex.: Tentei usar IA para montar um cronograma, mas o resultado ficou genérico demais. O que fiz de errado?',
         'Ex.: Existe alguma ferramenta que transcreva áudio em português com boa qualidade?',
       ];
@@ -694,7 +652,7 @@
       question.placeholder = placeholders[0];
       if (!still) {
         setInterval(() => {
-          if (question.value) return;
+          if (question.value || document.activeElement === question) return;
           question.classList.add('fade');
           setTimeout(() => {
             p = (p + 1) % placeholders.length;
@@ -711,13 +669,23 @@
       }
       question.addEventListener('input', updateCount);
 
-      // Brilho que segue o cursor dentro do cartão.
-      document.querySelectorAll('.card').forEach((card) => {
-        card.addEventListener('pointermove', (e) => {
-          const r = card.getBoundingClientRect();
-          card.style.setProperty('--mx', `${e.clientX - r.left}px`);
-          card.style.setProperty('--my', `${e.clientY - r.top}px`);
+      // Brilho que segue o cursor dentro do cartão (só com mouse).
+      if (matchMedia('(hover: hover)').matches) {
+        document.querySelectorAll('.card').forEach((card) => {
+          card.addEventListener('pointermove', (e) => {
+            const r = card.getBoundingClientRect();
+            card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+            card.style.setProperty('--my', `${e.clientY - r.top}px`);
+          });
         });
+      }
+
+      // "Enter" no nome leva para a pergunta, em vez de enviar o formulário.
+      $('name').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          question.focus();
+        }
       });
 
       // Apps Script não responde com CORS; JSONP (tag <script>) permite ler a confirmação.
@@ -741,13 +709,14 @@
 
       function confetti() {
         if (still) return;
-        const colors = ['#6d4aff', '#ff5fa2', '#ff9a3d', '#14b8a6', '#ffd23f'];
-        for (let i = 0; i < 90; i++) {
+        const colors = ['#5140c8', '#8f83e6', '#d6c7ff', '#c9a86a', '#1c1b29'];
+        const count = innerWidth < 600 ? 50 : 80;
+        for (let i = 0; i < count; i++) {
           const c = document.createElement('span');
           c.className = 'confetti';
           c.style.left = `${Math.random() * 100}vw`;
           c.style.background = colors[i % colors.length];
-          c.style.setProperty('--x', `${(Math.random() - 0.5) * 240}px`);
+          c.style.setProperty('--x', `${(Math.random() - 0.5) * 200}px`);
           c.style.setProperty('--r', `${(Math.random() - 0.5) * 1440}deg`);
           c.style.setProperty('--t', `${2.2 + Math.random() * 1.8}s`);
           c.style.animationDelay = `${Math.random() * 0.4}s`;
@@ -773,6 +742,7 @@
           question.focus();
           return;
         }
+        question.blur();
         submit.disabled = true;
         submit.classList.add('busy');
         submit.querySelector('.label').textContent = 'Enviando…';
