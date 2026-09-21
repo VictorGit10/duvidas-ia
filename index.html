@@ -40,7 +40,6 @@
       body {
         margin: 0;
         min-height: 100vh;
-        background: var(--bg);
         color: var(--ink);
         font: 17px/1.6 'Manrope', system-ui, sans-serif;
         overflow-x: hidden;
@@ -794,7 +793,8 @@
           done.classList.remove('show');
           void done.offsetWidth;
           done.classList.add('show');
-          done.focus();
+          done.focus({ preventScroll: true });
+          done.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'center' });
           confetti();
         } else {
           fail('Não foi possível enviar agora. Confira sua conexão e tente de novo — o que você escreveu continua aqui.');
