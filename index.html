@@ -238,12 +238,22 @@
 
       .field + .field { margin-top: 34px; }
       .num {
-        display: block;
-        font-family: 'Instrument Serif', Georgia, serif;
-        font-style: italic;
-        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
         color: var(--accent);
-        margin-bottom: 2px;
+        margin-bottom: 8px;
+        font-variant-numeric: tabular-nums;
+      }
+      .num::after {
+        content: '';
+        width: 28px;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.5;
       }
       label {
         display: block;
