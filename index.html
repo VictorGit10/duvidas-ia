@@ -677,8 +677,8 @@
           canvas.width = w * dpr;
           canvas.height = h * dpr;
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          const n = Math.round(Math.min(90, Math.max(34, (w * h) / 15000)));
-          link = w < 600 ? 95 : 130;
+          const n = Math.round(Math.min(90, Math.max(48, (w * h) / 14000)));
+          link = w < 600 ? 110 : 135;
           dots = Array.from({ length: n }, () => ({
             x: Math.random() * w,
             y: Math.random() * h,
