@@ -3,166 +3,721 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
     <title>Dúvidas sobre IA</title>
     <meta name="description" content="Envie sua dúvida prática sobre o uso de inteligência artificial." />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      @property --angle {
+        syntax: '<angle>';
+        initial-value: 0deg;
+        inherits: false;
+      }
+
       :root {
-        --bg: #f6f5f1;
-        --card: #ffffff;
-        --ink: #1d1d1b;
-        --muted: #5f5e58;
-        --line: #d9d7cf;
-        --accent: #1f5f4a;
-        --accent-ink: #ffffff;
-        --focus: #2d7a61;
-        --error: #a1321f;
+        color-scheme: light;
+        --bg: #fbf8f3;
+        --ink: #1b1a2e;
+        --muted: #62607a;
+        --soft: #8e8ca6;
+        --line: #e7e2f0;
+        --violet: #6d4aff;
+        --pink: #ff5fa2;
+        --orange: #ff9a3d;
+        --teal: #14b8a6;
+        --error: #c2382a;
+        --grad: linear-gradient(100deg, var(--violet), var(--pink) 55%, var(--orange));
       }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #161614;
-          --card: #1f1f1c;
-          --ink: #ecebe6;
-          --muted: #a9a79f;
-          --line: #3a3934;
-          --accent: #6cc0a0;
-          --accent-ink: #10231c;
-          --focus: #8fd6ba;
-          --error: #f08a74;
-        }
-      }
+
       * { box-sizing: border-box; }
+      html { background: var(--bg); }
       body {
         margin: 0;
+        min-height: 100vh;
         background: var(--bg);
         color: var(--ink);
-        font: 17px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        font: 17px/1.6 'Manrope', system-ui, sans-serif;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
       }
+
+      /* ---------- Fundo: manchas de cor em movimento ---------- */
+      .aurora {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .blob {
+        position: absolute;
+        width: 46vmax;
+        height: 46vmax;
+        border-radius: 50%;
+        filter: blur(70px);
+        opacity: 0.5;
+        mix-blend-mode: multiply;
+        animation: drift 22s ease-in-out infinite alternate;
+      }
+      .blob.b1 { background: #c9b8ff; top: -18vmax; left: -12vmax; }
+      .blob.b2 { background: #ffc2dc; top: -10vmax; right: -16vmax; animation-duration: 26s; animation-delay: -6s; }
+      .blob.b3 { background: #ffe0b8; bottom: -22vmax; left: 10vmax; animation-duration: 30s; animation-delay: -12s; }
+      .blob.b4 { background: #b8f0e8; bottom: -16vmax; right: -8vmax; animation-duration: 24s; animation-delay: -3s; }
+      @keyframes drift {
+        0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+        50% { transform: translate(6vmax, 5vmax) scale(1.12) rotate(40deg); }
+        100% { transform: translate(-5vmax, 8vmax) scale(0.94) rotate(-20deg); }
+      }
+      .dots {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background-image: radial-gradient(rgba(27, 26, 46, 0.09) 1px, transparent 1.4px);
+        background-size: 26px 26px;
+        mask-image: radial-gradient(ellipse at 50% 0%, #000 20%, transparent 75%);
+      }
+
       main {
-        max-width: 640px;
+        max-width: 760px;
         margin: 0 auto;
-        padding: 40px 16px 64px;
+        padding: clamp(40px, 9vh, 96px) 16px 72px;
       }
-      h1 {
-        font-size: clamp(1.7rem, 5vw, 2.2rem);
-        line-height: 1.15;
-        margin: 0 0 12px;
-        letter-spacing: -0.01em;
-      }
-      .lead { color: var(--muted); margin: 0 0 28px; }
-      .card {
-        background: var(--card);
+
+      /* ---------- Topo ---------- */
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 14px 7px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.7);
         border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 24px;
+        backdrop-filter: blur(8px);
+        font-size: 0.84rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: var(--muted);
+        box-shadow: 0 4px 20px rgba(109, 74, 255, 0.08);
       }
-      .field + .field { margin-top: 26px; }
-      label { display: block; font-weight: 650; margin-bottom: 4px; }
-      .optional { font-weight: 400; color: var(--muted); }
-      .hint { color: var(--muted); font-size: 0.94rem; margin: 0 0 10px; }
-      .hint ul { margin: 6px 0 0; padding-left: 1.2em; }
-      .hint li + li { margin-top: 2px; }
-      input[type="text"], textarea {
+      .spark {
+        width: 18px;
+        height: 18px;
+        animation: spin 6s linear infinite;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      h1 {
+        font-family: 'Instrument Serif', Georgia, serif;
+        font-weight: 400;
+        font-size: clamp(3rem, 11vw, 5.6rem);
+        line-height: 0.98;
+        letter-spacing: -0.02em;
+        margin: 22px 0 22px;
+      }
+      h1 em {
+        font-style: italic;
+        background: var(--grad);
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: sheen 6s ease-in-out infinite alternate;
+        padding-right: 0.08em;
+      }
+      @keyframes sheen { to { background-position: 100% 0; } }
+
+      .rotator {
+        font-size: clamp(1.08rem, 3.2vw, 1.3rem);
+        font-weight: 600;
+        color: var(--ink);
+        margin: 0 0 14px;
+      }
+      .words {
+        display: inline-grid;
+        vertical-align: bottom;
+        height: 1.6em;
+        overflow: hidden;
+      }
+      .words span {
+        grid-area: 1 / 1;
+        white-space: nowrap;
+        color: var(--violet);
+        transform: translateY(110%);
+        opacity: 0;
+        transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.2, 1), opacity 0.4s;
+      }
+      .words span.on { transform: translateY(0); opacity: 1; }
+      .words span.off { transform: translateY(-110%); opacity: 0; }
+      .words span::after {
+        content: '';
+        display: block;
+        height: 3px;
+        margin-top: -4px;
+        border-radius: 3px;
+        background: var(--grad);
+        opacity: 0.35;
+      }
+
+      .lead {
+        color: var(--muted);
+        font-size: 1.05rem;
+        max-width: 34em;
+        margin: 0;
+      }
+
+      /* ---------- Faixa de exemplos ---------- */
+      .marquee {
+        margin: 44px -16px 40px;
+        display: grid;
+        gap: 12px;
+        mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+      }
+      .track {
+        display: flex;
+        gap: 12px;
+        width: max-content;
+        animation: scroll 55s linear infinite;
+      }
+      .track.reverse { animation-direction: reverse; animation-duration: 65s; }
+      .marquee:hover .track { animation-play-state: paused; }
+      @keyframes scroll { to { transform: translateX(-50%); } }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid var(--line);
+        font-size: 0.93rem;
+        font-weight: 500;
+        color: var(--ink);
+        white-space: nowrap;
+        box-shadow: 0 6px 18px rgba(27, 26, 46, 0.05);
+      }
+      .pill i {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex: none;
+        font-style: normal;
+      }
+
+      /* ---------- Cartão do formulário ---------- */
+      .frame {
+        position: relative;
+        border-radius: 28px;
+        padding: 1.5px;
+        background: conic-gradient(from var(--angle), #e4dcff, var(--violet), var(--pink), var(--orange), #e4dcff 70%);
+        animation: rotate 8s linear infinite;
+        box-shadow: 0 30px 80px -30px rgba(109, 74, 255, 0.35), 0 12px 30px -12px rgba(255, 95, 162, 0.2);
+      }
+      @keyframes rotate { to { --angle: 360deg; } }
+      .card {
+        position: relative;
+        border-radius: 27px;
+        background: rgba(255, 255, 255, 0.94);
+        padding: clamp(22px, 5vw, 40px);
+        overflow: hidden;
+      }
+      .card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(420px circle at var(--mx, 50%) var(--my, -20%), rgba(109, 74, 255, 0.09), transparent 60%);
+        transition: opacity 0.3s;
+      }
+      .card > * { position: relative; }
+
+      .step {
+        display: flex;
+        gap: 16px;
+      }
+      .step + .step { margin-top: 30px; }
+      .num {
+        flex: none;
+        width: 34px;
+        height: 34px;
+        border-radius: 11px;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 0.95rem;
+        color: #fff;
+        background: var(--grad);
+        box-shadow: 0 6px 16px -4px rgba(255, 95, 162, 0.55);
+        margin-top: 2px;
+      }
+      .step-body { flex: 1; min-width: 0; }
+
+      label {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        font-weight: 800;
+        font-size: 1.12rem;
+        margin-bottom: 2px;
+      }
+      .tag {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--teal);
+        background: rgba(20, 184, 166, 0.1);
+        border-radius: 999px;
+        padding: 3px 9px;
+      }
+      .hint { color: var(--muted); font-size: 0.95rem; margin: 0 0 12px; }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0 0 14px;
+        padding: 0;
+        list-style: none;
+      }
+      .chips li {
+        font-size: 0.86rem;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 10px;
+        background: #f5f2ff;
+        color: #4b36c7;
+        border: 1px solid #e6dfff;
+      }
+      .chips li:nth-child(2) { background: #fff1f7; color: #b3336c; border-color: #ffdcea; }
+      .chips li:nth-child(3) { background: #fff5ea; color: #a85a12; border-color: #ffe4c7; }
+
+      .input {
+        position: relative;
+        border-radius: 16px;
+        padding: 1.5px;
+        background: var(--line);
+        transition: background 0.3s, box-shadow 0.3s;
+      }
+      .input:focus-within {
+        background: var(--grad);
+        box-shadow: 0 0 0 6px rgba(109, 74, 255, 0.1);
+      }
+      input[type='text'],
+      textarea {
+        display: block;
         width: 100%;
         font: inherit;
-        color: inherit;
-        background: var(--bg);
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        padding: 11px 13px;
-      }
-      textarea { min-height: 190px; resize: vertical; }
-      input:focus-visible, textarea:focus-visible, button:focus-visible {
-        outline: 3px solid var(--focus);
-        outline-offset: 2px;
-      }
-      .count { text-align: right; font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
-      .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-      button {
-        margin-top: 24px;
-        font: inherit;
-        font-weight: 650;
-        background: var(--accent);
-        color: var(--accent-ink);
+        font-size: 1rem;
+        color: var(--ink);
+        background: #fff;
         border: 0;
-        border-radius: 10px;
-        padding: 12px 22px;
-        cursor: pointer;
+        border-radius: 14.5px;
+        padding: 14px 16px;
+        outline: none;
       }
-      button[disabled] { opacity: 0.6; cursor: progress; }
-      .status { margin: 14px 0 0; min-height: 1.5em; }
+      textarea {
+        min-height: 180px;
+        resize: vertical;
+        line-height: 1.55;
+      }
+      ::placeholder { color: #aaa8bd; opacity: 1; transition: opacity 0.35s; }
+      textarea.fade::placeholder { opacity: 0; }
+
+      .meter {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 8px;
+        font-size: 0.8rem;
+        color: var(--soft);
+      }
+      .bar {
+        width: 90px;
+        height: 4px;
+        border-radius: 4px;
+        background: var(--line);
+        overflow: hidden;
+      }
+      .bar span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--grad);
+        transition: width 0.25s;
+      }
+
+      .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 14px 20px;
+        margin-top: 32px;
+        padding-left: 50px;
+      }
+      button {
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font: inherit;
+        font-weight: 800;
+        font-size: 1.02rem;
+        color: #fff;
+        background: var(--grad);
+        background-size: 160% 100%;
+        border: 0;
+        border-radius: 14px;
+        padding: 15px 26px;
+        cursor: pointer;
+        box-shadow: 0 14px 30px -10px rgba(109, 74, 255, 0.6);
+        transition: transform 0.2s, box-shadow 0.2s, background-position 0.5s;
+      }
+      button::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -60%;
+        width: 40%;
+        height: 100%;
+        background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+        transform: skewX(-20deg);
+        animation: shine 3.6s ease-in-out infinite;
+      }
+      @keyframes shine { 0%, 60% { left: -60%; } 100% { left: 130%; } }
+      button:hover { transform: translateY(-2px); background-position: 100% 0; box-shadow: 0 20px 36px -12px rgba(255, 95, 162, 0.6); }
+      button:active { transform: translateY(0); }
+      button:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
+      button .arrow { transition: transform 0.25s; }
+      button:hover .arrow { transform: translateX(4px); }
+      button[disabled] { cursor: progress; opacity: 0.85; }
+      .spinner {
+        display: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2.5px solid rgba(255, 255, 255, 0.4);
+        border-top-color: #fff;
+        animation: spin 0.7s linear infinite;
+      }
+      button.busy .spinner { display: block; }
+      button.busy .arrow { display: none; }
+
+      .privacy { font-size: 0.86rem; color: var(--soft); margin: 0; }
+      .status { margin: 16px 0 0 50px; font-weight: 600; min-height: 0; }
+      .status:empty { display: none; }
       .status.error { color: var(--error); }
-      .done h2 { margin: 0 0 8px; font-size: 1.35rem; }
-      .done p { margin: 0; color: var(--muted); }
+
+      .shake { animation: shake 0.4s; }
+      @keyframes shake {
+        20%, 60% { transform: translateX(-6px); }
+        40%, 80% { transform: translateX(6px); }
+      }
+
+      /* ---------- Confirmação ---------- */
+      .done { text-align: center; padding-block: clamp(36px, 7vw, 56px); }
+      .done:focus { outline: none; }
+      .check { width: 92px; height: 92px; margin: 0 auto 18px; display: block; }
+      .check circle {
+        fill: none;
+        stroke: url(#g);
+        stroke-width: 5;
+        stroke-dasharray: 260;
+        stroke-dashoffset: 260;
+      }
+      .check path {
+        fill: none;
+        stroke: url(#g);
+        stroke-width: 6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 60;
+        stroke-dashoffset: 60;
+      }
+      .done.show .check circle { animation: draw 0.7s 0.1s ease-out forwards; }
+      .done.show .check path { animation: draw 0.4s 0.7s ease-out forwards; }
+      @keyframes draw { to { stroke-dashoffset: 0; } }
+      .done h2 {
+        font-family: 'Instrument Serif', Georgia, serif;
+        font-weight: 400;
+        font-size: clamp(2.3rem, 7vw, 3.2rem);
+        line-height: 1.05;
+        margin: 0 0 10px;
+      }
+      .done p { color: var(--muted); margin: 0 auto 26px; max-width: 26em; }
+      .done button { margin: 0 auto; }
+      .done.show > * { animation: rise 0.6s both; }
+      .done.show > :nth-child(2) { animation-delay: 0.15s; }
+      .done.show > :nth-child(3) { animation-delay: 0.25s; }
+      .done.show > :nth-child(4) { animation-delay: 0.35s; }
+      @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+
+      .confetti {
+        position: fixed;
+        top: -20px;
+        width: 9px;
+        height: 14px;
+        border-radius: 2px;
+        pointer-events: none;
+        z-index: 10;
+        animation: fall var(--t) cubic-bezier(0.25, 0.6, 0.4, 1) forwards;
+      }
+      @keyframes fall {
+        to { transform: translate(var(--x), 105vh) rotate(var(--r)); opacity: 0.9; }
+      }
+
+      /* ---------- Entrada da página ---------- */
+      .reveal { animation: rise 0.9s cubic-bezier(0.2, 0.9, 0.2, 1) both; }
+      .d1 { animation-delay: 0.08s; }
+      .d2 { animation-delay: 0.18s; }
+      .d3 { animation-delay: 0.28s; }
+      .d4 { animation-delay: 0.4s; }
+      .d5 { animation-delay: 0.55s; }
+
+      footer { text-align: center; color: var(--soft); font-size: 0.85rem; margin-top: 36px; }
+
       [hidden] { display: none !important; }
+
+      @media (max-width: 560px) {
+        .step { gap: 12px; }
+        .num { width: 30px; height: 30px; border-radius: 10px; font-size: 0.88rem; }
+        .actions, .status { padding-left: 0; margin-left: 0; }
+        .actions button { width: 100%; justify-content: center; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+        .track { animation: none; }
+      }
     </style>
   </head>
   <body>
+    <div class="aurora" aria-hidden="true">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+      <div class="blob b4"></div>
+    </div>
+    <div class="dots" aria-hidden="true"></div>
+
     <main>
-      <h1>O que você quer saber sobre IA?</h1>
-      <p class="lead">
-        Conte uma dúvida, um problema ou uma ideia sobre o uso de inteligência artificial no seu
-        trabalho ou estudo. As respostas vão orientar a aula.
-      </p>
+      <header>
+        <span class="eyebrow reveal">
+          <svg class="spark" viewBox="0 0 24 24" aria-hidden="true">
+            <defs>
+              <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6d4aff" />
+                <stop offset="1" stop-color="#ff5fa2" />
+              </linearGradient>
+            </defs>
+            <path fill="url(#sg)" d="M12 0c.7 6.4 5.6 11.3 12 12-6.4.7-11.3 5.6-12 12-.7-6.4-5.6-11.3-12-12C6.4 11.3 11.3 6.4 12 0z" />
+          </svg>
+          Inteligência artificial na prática
+        </span>
 
-      <form id="form" class="card" novalidate>
-        <div class="field">
-          <label for="name">Seu nome <span class="optional">(opcional)</span></label>
-          <p class="hint" id="name-hint">Pode deixar em branco — sua dúvida chega do mesmo jeito, de forma anônima.</p>
-          <input id="name" name="name" type="text" maxlength="80" autocomplete="name" aria-describedby="name-hint" />
-        </div>
+        <h1 class="reveal d1">Pergunte o que quiser sobre <em>IA</em>.</h1>
 
-        <div class="field">
-          <label for="question">Qual é a sua dúvida ou questão prática sobre IA?</label>
-          <div class="hint" id="question-hint">
-            Vale qualquer coisa, do básico ao específico. Por exemplo:
-            <ul>
-              <li>uma tarefa do seu dia a dia em que a IA poderia ajudar, mas você não sabe como;</li>
-              <li>algo que você tentou fazer com IA e não funcionou como esperava;</li>
-              <li>qual ferramenta usar, como pedir, ou até onde dá para confiar na resposta;</li>
-              <li>receios ou questionamentos: ética, privacidade, plágio, autoria.</li>
-            </ul>
+        <p class="rotator reveal d2" aria-hidden="true">
+          Como usar IA para
+          <span class="words" id="words">
+            <span class="on">resumir um artigo?</span>
+            <span>revisar um texto?</span>
+            <span>analisar uma planilha?</span>
+            <span>preparar uma apresentação?</span>
+            <span>escrever um código?</span>
+            <span>organizar a rotina?</span>
+            <span>transcrever uma reunião?</span>
+          </span>
+        </p>
+
+        <p class="lead reveal d3">
+          Uma tarefa que você gostaria de automatizar, um resultado que saiu errado, uma ferramenta que você
+          não sabe usar: <strong>traga para a aula</strong>. Nenhuma pergunta é simples demais.
+        </p>
+      </header>
+
+      <div class="marquee reveal d4" aria-hidden="true">
+        <div class="track" id="t1"></div>
+        <div class="track reverse" id="t2"></div>
+      </div>
+
+      <div class="frame reveal d5">
+        <form id="form" class="card" novalidate>
+          <div class="step">
+            <span class="num" aria-hidden="true">1</span>
+            <div class="step-body">
+              <label for="name">Como você se chama? <span class="tag">Opcional</span></label>
+              <p class="hint" id="name-hint">Se preferir, deixe em branco. Sua pergunta chega do mesmo jeito, sem identificação.</p>
+              <div class="input">
+                <input id="name" name="name" type="text" maxlength="80" autocomplete="name" aria-describedby="name-hint" placeholder="Seu nome" />
+              </div>
+            </div>
           </div>
-          <textarea
-            id="question"
-            name="question"
-            maxlength="2000"
-            required
-            aria-describedby="question-hint count"
-            placeholder="Ex.: Uso IA para resumir artigos, mas às vezes ela inventa referências. Como evito isso?"
-          ></textarea>
-          <div class="count" id="count" aria-live="polite">0 / 2000</div>
-        </div>
 
-        <div class="trap" aria-hidden="true">
-          <label for="website">Não preencha</label>
-          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
-        </div>
+          <div class="step">
+            <span class="num" aria-hidden="true">2</span>
+            <div class="step-body">
+              <label for="question">Qual é a sua dúvida?</label>
+              <p class="hint" id="question-hint">
+                Quanto mais concreta, melhor: conte o que você queria fazer e onde travou. Pode ser, por exemplo:
+              </p>
+              <ul class="chips" aria-label="Exemplos">
+                <li>Uma tarefa em que a IA poderia te ajudar</li>
+                <li>Algo que você tentou e não deu certo</li>
+                <li>Qual ferramenta usar e como pedir</li>
+              </ul>
+              <div class="input">
+                <textarea
+                  id="question"
+                  name="question"
+                  maxlength="2000"
+                  required
+                  aria-describedby="question-hint count"
+                ></textarea>
+              </div>
+              <div class="meter">
+                <span class="bar" aria-hidden="true"><span id="bar"></span></span>
+                <span id="count">0 / 2000</span>
+              </div>
+            </div>
+          </div>
 
-        <button type="submit" id="submit">Enviar dúvida</button>
-        <p class="status" id="status" role="status" aria-live="polite"></p>
-      </form>
+          <div class="trap" aria-hidden="true">
+            <label for="website">Não preencha</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
 
-      <section id="done" class="card done" hidden tabindex="-1">
-        <h2>Recebido, obrigado!</h2>
-        <p>Sua dúvida foi registrada e vai ajudar a preparar a aula.</p>
-        <button type="button" id="again">Enviar outra dúvida</button>
-      </section>
+          <div class="actions">
+            <button type="submit" id="submit">
+              <span class="label">Enviar pergunta</span>
+              <span class="arrow" aria-hidden="true">→</span>
+              <span class="spinner" aria-hidden="true"></span>
+            </button>
+            <p class="privacy">Só o professor vê as respostas.</p>
+          </div>
+          <p class="status" id="status" role="status" aria-live="polite"></p>
+        </form>
+
+        <section id="done" class="card done" hidden tabindex="-1" aria-live="polite">
+          <svg class="check" viewBox="0 0 92 92" aria-hidden="true">
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6d4aff" />
+                <stop offset="0.55" stop-color="#ff5fa2" />
+                <stop offset="1" stop-color="#ff9a3d" />
+              </linearGradient>
+            </defs>
+            <circle cx="46" cy="46" r="41" />
+            <path d="M28 47l12 12 24-26" />
+          </svg>
+          <h2>Pergunta recebida!</h2>
+          <p>Obrigado por compartilhar. Ficou com outra dúvida? Pode mandar quantas quiser.</p>
+          <button type="button" id="again">
+            <span class="label">Enviar outra pergunta</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </button>
+        </section>
+      </div>
     </main>
 
     <script>
       const ENDPOINT =
         'https://script.google.com/macros/s/AKfycbzs_d2GFdtzVCYCKBf0pqip9Ce59SY7hcN4XIZSjl9vzVp4RS3xNxk7WWWqZULZpbQX/exec';
+      const MAX = 2000;
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      const form = document.getElementById('form');
-      const question = document.getElementById('question');
-      const count = document.getElementById('count');
-      const status = document.getElementById('status');
-      const submit = document.getElementById('submit');
-      const done = document.getElementById('done');
+      const $ = (id) => document.getElementById(id);
+      const form = $('form');
+      const question = $('question');
+      const status = $('status');
+      const submit = $('submit');
+      const done = $('done');
 
-      question.addEventListener('input', () => {
-        count.textContent = `${question.value.length} / 2000`;
+      // Faixa de exemplos: cada linha é duplicada para o loop não ter emenda.
+      const examples = [
+        ['Como pedir um resumo que não invente nada?', '#6d4aff'],
+        ['Dá para usar IA para analisar uma planilha?', '#ff5fa2'],
+        ['ChatGPT, Gemini ou Claude: qual usar?', '#ff9a3d'],
+        ['Como escrever um bom prompt?', '#14b8a6'],
+        ['Posso confiar nas referências que ela sugere?', '#6d4aff'],
+        ['Como transformar uma reunião gravada em ata?', '#ff5fa2'],
+        ['A IA pode revisar meu texto sem mudar meu estilo?', '#ff9a3d'],
+        ['Como montar slides mais rápido?', '#14b8a6'],
+        ['Dá para ler um PDF enorme e tirar só o essencial?', '#6d4aff'],
+        ['Como automatizar respostas de e-mail?', '#ff5fa2'],
+        ['Por que a resposta muda cada vez que pergunto?', '#ff9a3d'],
+        ['Como traduzir mantendo os termos técnicos?', '#14b8a6'],
+      ];
+      function fill(track, items) {
+        const html = items.map(([t, c]) => `<span class="pill"><i style="background:${c}"></i>${t}</span>`).join('');
+        track.innerHTML = html + html;
+      }
+      fill($('t1'), examples.slice(0, 6));
+      fill($('t2'), examples.slice(6));
+
+      // Palavra que gira no topo.
+      const words = [...$('words').children];
+      let w = 0;
+      if (!still) {
+        setInterval(() => {
+          const prev = words[w];
+          w = (w + 1) % words.length;
+          prev.className = 'off';
+          words[w].className = 'on';
+          setTimeout(() => prev.classList.remove('off'), 650);
+        }, 2400);
+      }
+
+      // Placeholder que alterna exemplos enquanto o campo está vazio.
+      const placeholders = [
+        'Ex.: Peço para a IA resumir artigos, mas às vezes ela cita trabalhos que não existem. Como evitar isso?',
+        'Ex.: Toda semana eu monto um relatório à mão a partir de uma planilha. A IA consegue fazer isso por mim?',
+        'Ex.: Tentei usar IA para montar um cronograma, mas o resultado ficou genérico demais. O que fiz de errado?',
+        'Ex.: Existe alguma ferramenta que transcreva áudio em português com boa qualidade?',
+      ];
+      let p = 0;
+      question.placeholder = placeholders[0];
+      if (!still) {
+        setInterval(() => {
+          if (question.value) return;
+          question.classList.add('fade');
+          setTimeout(() => {
+            p = (p + 1) % placeholders.length;
+            question.placeholder = placeholders[p];
+            question.classList.remove('fade');
+          }, 350);
+        }, 5000);
+      }
+
+      function updateCount() {
+        const n = question.value.length;
+        $('count').textContent = `${n} / ${MAX}`;
+        $('bar').style.width = `${Math.min(100, (n / MAX) * 100)}%`;
+      }
+      question.addEventListener('input', updateCount);
+
+      // Brilho que segue o cursor dentro do cartão.
+      document.querySelectorAll('.card').forEach((card) => {
+        card.addEventListener('pointermove', (e) => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+          card.style.setProperty('--my', `${e.clientY - r.top}px`);
+        });
       });
 
       // Apps Script não responde com CORS; JSONP (tag <script>) permite ler a confirmação.
@@ -184,41 +739,70 @@
         });
       }
 
+      function confetti() {
+        if (still) return;
+        const colors = ['#6d4aff', '#ff5fa2', '#ff9a3d', '#14b8a6', '#ffd23f'];
+        for (let i = 0; i < 90; i++) {
+          const c = document.createElement('span');
+          c.className = 'confetti';
+          c.style.left = `${Math.random() * 100}vw`;
+          c.style.background = colors[i % colors.length];
+          c.style.setProperty('--x', `${(Math.random() - 0.5) * 240}px`);
+          c.style.setProperty('--r', `${(Math.random() - 0.5) * 1440}deg`);
+          c.style.setProperty('--t', `${2.2 + Math.random() * 1.8}s`);
+          c.style.animationDelay = `${Math.random() * 0.4}s`;
+          if (i % 3 === 0) c.style.borderRadius = '50%';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 4800);
+        }
+      }
+
+      function fail(message) {
+        status.className = 'status error';
+        status.textContent = message;
+        form.classList.remove('shake');
+        void form.offsetWidth;
+        form.classList.add('shake');
+      }
+
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         const text = question.value.trim();
         if (text.length < 3) {
-          status.className = 'status error';
-          status.textContent = 'Escreva sua dúvida antes de enviar.';
+          fail('Escreva sua pergunta antes de enviar.');
           question.focus();
           return;
         }
         submit.disabled = true;
-        status.className = 'status';
-        status.textContent = 'Enviando…';
+        submit.classList.add('busy');
+        submit.querySelector('.label').textContent = 'Enviando…';
+        status.textContent = '';
 
         const result = await send({
-          name: document.getElementById('name').value.trim(),
+          name: $('name').value.trim(),
           question: text,
-          website: document.getElementById('website').value,
+          website: $('website').value,
         });
 
         submit.disabled = false;
+        submit.classList.remove('busy');
+        submit.querySelector('.label').textContent = 'Enviar pergunta';
         if (result === 'received') {
-          status.textContent = '';
           form.hidden = true;
           done.hidden = false;
+          done.classList.remove('show');
+          void done.offsetWidth;
+          done.classList.add('show');
           done.focus();
+          confetti();
         } else {
-          status.className = 'status error';
-          status.textContent =
-            'Não foi possível enviar agora. Verifique a conexão e tente de novo — seu texto continua aqui.';
+          fail('Não foi possível enviar agora. Confira sua conexão e tente de novo — o que você escreveu continua aqui.');
         }
       });
 
-      document.getElementById('again').addEventListener('click', () => {
+      $('again').addEventListener('click', () => {
         question.value = '';
-        count.textContent = '0 / 2000';
+        updateCount();
         done.hidden = true;
         form.hidden = false;
         question.focus();
